@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperMarket</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background-color: rgb(57, 235, 254);
+            overflow: hidden;
+        }
+
+        .div_head {
+            width: 100%;
+            height: 12vh;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            background-image: linear-gradient(#f4d03f 100%);
+        }
+
+        .div_sidebar {
+            width: 30%;
+            height: 5vh;
+        }
+
+        .sidebar_logo {
+            width: 30px;
+            height: auto;
+            margin-left: 15px;
+        }
+
+        .div_heading {
+            width: 60%;
+            height: 5vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .div_heading h1 {
+            margin-left: 15%;
+            letter-spacing: 2px;
+            font-size: 50px;
+        }
+
+        .div_time {
+            width: 10%;
+            height: 5vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .div_main {
+            width: 100vw;
+            height: 90vh;
+        }
+
+        .div_main img {
+            width: 100vw;
+            height: 90vh;
+            object-fit: cover;
+            aspect-ratio: 1;
+        }
+
+        .sidebar-open .div_main img {
+            width: calc(100vw - 250px);
+            height: 90vh;
+            object-fit: cover;
+            aspect-ratio: 1;
+        }
+
+        .div_nav {
+            position: fixed;
+            top: 12vh;
+            left: -250px;
+            width: 250px;
+            height: 90vh;
+            color: white;
+            padding-top: 20px;
+            transition: left 0.5s ease-in-out;
+            z-index: 1000;
+            background-image: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
+        }
+
+        .div_nav.active {
+            left: 0;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li {
+            padding: 15px;
+            border-bottom: 1px solid rgba(36, 33, 33, 0.2);
+        }
+
+        .nav-links li:hover {
+            background-color: yellowgreen;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            color: black;
+            font-weight: bold;
+            margin-left: 10px
+        }
+
+        .sidebar-open .div_main {
+            width: calc(100% - 250px);
+            margin-left: 250px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div_body">
+        <div class="div_head">
+            <div class="div_sidebar">
+                <img class="sidebar_logo" id="sidebar" onclick="toggleSidebar()" src="Images/list-1-svgrepo-com.svg"
+                    alt="Sidebar">
+            </div>
+            <div class="div_heading">
+                <h1>SuperMarket</h1>
+            </div>
+            <div class="div_time">
+                <h3 class="div_time_h3"></h3>
+            </div>
+        </div>
+        <div class="div_main">
+            <!-- <img src="Images/59346.jpg" alt=""> -->
+            <img src="Images/329821b7-10fc-4da5-a22a-79e757cd1203.jpg" alt="">
+        </div>
+        <div class="div_nav">
+            <ul class="nav-links">
+                <li><a href="dashboard.html"> Dashboard</a></li>
+                <li><a href="addProduct.html"> Add Product</a></li>
+                <li><a href="updateProduct.html"> Update Product</a></li>
+                <li><a href="deleteProduct.html"> Delete Product</a></li>
+                <li><a href="/listProducts"> List Products</a></li>
+                <li><a href="/productSummary"> Summary</a></li>
+                <li><a href="login.html"> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+
+
+        const dateElement = document.querySelector('.div_time_h3');
+        function updateTime() {
+            const currentDate = new Date();
+            dateElement.textContent = currentDate.toLocaleTimeString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+
+        function toggleSidebar() {
+            document.querySelector('.div_nav').classList.toggle('active');
+            document.querySelector('.div_body').classList.toggle('sidebar-open');
+        }
+    </script>
+</body>
+
+</html>

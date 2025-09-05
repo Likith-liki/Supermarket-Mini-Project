@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 22px;
+            color: #333;
+        }
+
+        .card p {
+            margin: 5px 0;
+        }
+
+        ul {
+            padding-left: 18px;
+            margin: 10px 0 0;
+        }
+
+        li {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .div_home{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .home{
+            text-decoration: none;
+            font-size: 22px;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            color: black;
+            font-weight: bold;
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Summary</h1>
+    <div class="container" id="summaryContainer">
+        <p>Loading...</p>
+    </div>
+    <div class="div_home">
+        <a class="home" href="dashboard.html">Home</a>
+    </div>
+    <script>
+        const categoryImages = {
+            "Fashion": "/Images/fashion.jpg",
+            "Food": "/Images/food.jpg",
+            "Electronics": "/Images/electro.jpg",
+            "Cosmetics": "/Images/cosmetics.jpg",
+            "Home Appliances": "/Images/home_appliances.jpg",
+            "Default": "/Images/default.jpg"
+        };
+
+        async function loadSummary() {
+            const container = document.getElementById('summaryContainer');
+            try {
+                const res = await fetch('/productSummaryData');
+                const data = await res.json();
+                container.innerHTML = '';
+
+                data.forEach(category => {
+                    const imgSrc = categoryImages[category.Category] || categoryImages['Default'];
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <img src="${imgSrc}" alt="${category.Category}">
+                        <div class="card-body">
+                            <h2>${category.Category}</h2>
+                            <p><strong>Total Quantity:</strong> ${category.totalQuantity}</p>
+                            <p><strong>Total Collection:</strong> ₹${category.totalCollection.toLocaleString('en-IN')}</p>
+                            <h3>Products:</h3>
+                            <ul>
+                                ${Array.isArray(category.products) && category.products.length > 0
+                                    ? category.products.map(p =>
+                                        `<li><strong>${p.Name}</strong> - Qty: ${p.Quantity}, ₹${p.Total.toLocaleString('en-IN')}</li>`
+                                      ).join('')
+                                    : '<li>No products available</li>'
+                                }
+                            </ul>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                console.error('Error loading summary:', err);
+                container.innerHTML = '<p style="color:red;">Error loading data</p>';
+            }
+        }
+
+        loadSummary();
+    </script>
+</body>
+</html>
